@@ -1,3 +1,4 @@
+// Online C++ compiler to run C++ program online
 /************************************************************
  CMP2003 – Data Structures
  Lab: Binary Search Tree (BST) – Traversals & Basic Stats
@@ -97,9 +98,7 @@ void bSearchTreeType<T>::destroy(nodeType<T>*& p) {
 ************************************************************/
 template <class T>
 void bSearchTreeType<T>::insert(const T& item) {
-    // TODO:
-    // Call the recursive insert helper starting from root.
-    // Example: insert(root, item);
+     insert(root, item);
 }
 
 /************************************************************
@@ -112,7 +111,16 @@ template <class T>
 void bSearchTreeType<T>::insert(nodeType<T>*& p, const T& item) {
     // TODO:
     // If p is null, create a new node.
+    if(p == nullptr){
+        p = new nodeType<T>(item);
+        return;
+    }
     // Otherwise, recurse left or right based on BST rules.
+    if(item < p->info){
+        insert(p->llink , item);
+    }else{
+        insert(p->rlink , item);
+    }
 }
 
 /************************************************************
@@ -121,16 +129,19 @@ void bSearchTreeType<T>::insert(nodeType<T>*& p, const T& item) {
 template <class T>
 void bSearchTreeType<T>::inorderTraversal() const {
     // TODO: call inorder(root)
+    inorder(root);
 }
 
 template <class T>
 void bSearchTreeType<T>::preorderTraversal() const {
     // TODO: call preorder(root)
+    preorder(root);
 }
 
 template <class T>
 void bSearchTreeType<T>::postorderTraversal() const {
     // TODO: call postorder(root)
+    postorder(root);
 }
 
 /************************************************************
@@ -143,7 +154,14 @@ template <class T>
 void bSearchTreeType<T>::inorder(nodeType<T>* p) const {
     // TODO:
     // If p is null return
+    if(p == nullptr) return;
+    
+    inorder(p->llink);
+    cout << p->info << " ";
+    inorder(p->llink);
     // Visit left, print root, visit right
+    
+    
 }
 
 template <class T>
@@ -151,6 +169,10 @@ void bSearchTreeType<T>::preorder(nodeType<T>* p) const {
     // TODO:
     // If p is null return
     // Print root, visit left, visit right
+    if(p == nullptr) return;
+    cout << p->info <<" ";
+    preorder(p->llink);
+    preorder(p->rlink);
 }
 
 template <class T>
@@ -158,6 +180,10 @@ void bSearchTreeType<T>::postorder(nodeType<T>* p) const {
     // TODO:
     // If p is null return
     // Visit left, visit right, print root
+    if(p == nullptr) return;
+    postorder(p->llink);
+    postorder(p->rlink);
+    cout << p->info <<" ";
 }
 
 /************************************************************
@@ -169,15 +195,18 @@ void bSearchTreeType<T>::postorder(nodeType<T>* p) const {
 template <class T>
 int bSearchTreeType<T>::treeHeight() const {
     // TODO: return height(root)
-    return 0;
+    return height(root);
 }
 
 template <class T>
 int bSearchTreeType<T>::height(nodeType<T>* p) const {
     // TODO:
     // If p is null => 0
-    // else => 1 + max(height(left), height(right))
-    return 0;
+    if(p == nullptr) return 0;
+    int hl = height(p->llink);
+    int hr = height(p->rlink);
+    // else => 1 + max(height(left), height(right)) ?
+    return 1 + (hl > hr ? hl : hr);
 }
 
 /************************************************************
@@ -186,15 +215,16 @@ int bSearchTreeType<T>::height(nodeType<T>* p) const {
 template <class T>
 int bSearchTreeType<T>::treeNodeCount() const {
     // TODO: return nodeCount(root)
-    return 0;
+    return nodeCount(root);
 }
 
 template <class T>
 int bSearchTreeType<T>::nodeCount(nodeType<T>* p) const {
     // TODO:
     // If p is null => 0
+    if(p == nullptr) return 0;
     // else => 1 + nodeCount(left) + nodeCount(right)
-    return 0;
+    return 1 + nodeCount(p->llink) + nodeCount(p->rlink);
 }
 
 /************************************************************
@@ -204,16 +234,18 @@ int bSearchTreeType<T>::nodeCount(nodeType<T>* p) const {
 template <class T>
 int bSearchTreeType<T>::treeLeavesCount() const {
     // TODO: return leavesCount(root)
-    return 0;
+    return leavesCount(root);
 }
 
 template <class T>
 int bSearchTreeType<T>::leavesCount(nodeType<T>* p) const {
     // TODO:
     // If p is null => 0
+    if(p == nullptr) return 0;
     // If p is leaf => 1
+    if(p->llink == nullptr && p->rlink == nullptr) return 1;
     // else => leavesCount(left) + leavesCount(right)
-    return 0;
+    return leavesCount(p->llink) + leavesCount(p->rlink);
 }
 
 /************************************************************
